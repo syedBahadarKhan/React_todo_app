@@ -1,0 +1,18 @@
+.likebutton{
+    width: 400px;
+    height: 180px;
+    background-color: lightblue;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 auto;
+}
+
+.likebutton p{
+    padding-top: 60px;
+    padding-right: 105px;
+}
+
+.likebutton h2{
+    padding-top: 50px;
+    padding-left: 105px;
+}
