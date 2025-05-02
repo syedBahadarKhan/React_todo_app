@@ -1,62 +1,51 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-function TodoApp(){
-    let [like, SetLike]= useState([{task:'', id: uuidv4()}]);
-    let [newTodo, setNewTodo] = useState();
 
-    let newTask = () =>{
-     SetLike((prevTodo) =>{
-        return[...prevTodo, {task: newTodo, id: uuidv4()}]
-     });
-     setNewTodo("");
+function TodoApp() {
+    const [like, setLike] = useState([]); // Initial state should be an empty array
+    const [newTodo, setNewTodo] = useState(""); // Initialize with empty string for input binding
 
-    }
+    const newTask = () => {
+        if (!newTodo.trim()) return; // Prevent adding empty tasks
+        setLike((prevTodo) => [
+            ...prevTodo,
+            { task: newTodo, id: uuidv4(), isDone: false }
+        ]);
+        setNewTodo("");
+    };
 
-    let updateValue = (e) =>{
-        setNewTodo(e.target.value)
-        
-    }
+    const updateValue = (e) => {
+        setNewTodo(e.target.value);
+    };
 
-    let deleteTask  = (id) =>{
-        SetLike(like.filter((todo) => todo.id !== id));
-    }
+    const deleteTask = (id) => {
+        setLike(like.filter((todo) => todo.id !== id));
+    };
 
-    let ToUppercase = () =>{ 
-        SetLike ( (prevTodo) => 
-            prevTodo.map((todo) =>{
-            return {
-                ...todo,
-                task: todo.task.toUpperCase()
-
-            }
-        })) 
-    
-    }
-    return(
+    return (
         <div>
-            <input type="text" placeholder="enter Task" value={newTodo} onChange={updateValue}/>
+            <input
+                type="text"
+                placeholder="Enter Task"
+                value={newTodo}
+                onChange={updateValue}
+            />
             <br /><br />
-            <button onClick={newTask}>Add task</button>
+            <button onClick={newTask}>Add Task</button>
 
-            <h4>task Todo</h4>
+            <h4>Tasks Todo</h4>
             <hr />
             <ul>
-                {
-                
-                like.map((todo) =>{
-                  return  <li key={todo.id}>
-                    <span>{todo.task}</span>
-                    &nbsp; &nbsp; &nbsp; &nbsp;
-                    <button onClick={ () =>deleteTask(todo.id)}>Delete</button>
-                    </li>;
-                })
-                }
+                {like.map((todo) => (
+                    <li key={todo.id}>
+                        <span>{todo.task}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button onClick={() => deleteTask(todo.id)}>Delete</button>
+                    </li>
+                ))}
             </ul>
-
-            {/* <button onClick={ToUppercase}>To Uppercase</button> */}
-
         </div>
-    )
+    );
 }
 
 export default TodoApp;
