@@ -1,3 +1,4 @@
+import './todo.css'
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,6 +23,12 @@ function TodoApp() {
         setLike(like.filter((todo) => todo.id !== id));
     };
 
+    const toggleDone = (id) => {
+        setLike(like.map(todo =>
+            todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+        ));
+    };
+
     return (
         <div>
             <input
@@ -38,8 +45,12 @@ function TodoApp() {
             <ul>
                 {like.map((todo) => (
                     <li key={todo.id}>
-                        <span>{todo.task}</span>
+                        <span className={todo.isDone ? 'done' : ''}> {todo.task} </span>
                         &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button onClick={() => toggleDone(todo.id)}>
+                            {todo.isDone ? 'Undo' : 'Mark as Done'}
+                        </button>
+                        &nbsp;
                         <button onClick={() => deleteTask(todo.id)}>Delete</button>
                     </li>
                 ))}
